@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Alibapass Password Manager">
+        <meta name="author" content="Denis Leger" />
+        
+{% block stylesheets %}
+{% stylesheets
+    '@AppBundle/Resources/public/js/bower_components/bootstrap/dist/css/bootstrap.min.css'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-sortable/Contents/bootstrap-sortable.css'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css'
+    output='css/compiled/main.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% javascripts
+    '@AppBundle/Resources/public/js/bower_components/jquery/dist/jquery.min.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-sortable/Scripts/bootstrap-sortable.js'
+    '@AppBundle/Resources/public/js/bower_components/bootbox.js/bootbox.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+    '@AppBundle/Resources/public/js/bower_components/clipboard/dist/clipboard.min.js'
+    '@AppBundle/Resources/public/js/bower_components/notify.js/dist/notify.js'
+    '@AppBundle/Resources/public/js/bower_components/Sortable/Sortable.min.js'
+    '@AppBundle/Resources/public/js/bower_components/pGenerator/pGenerator.jquery.js'
+    '@AppBundle/Resources/public/js/main/main.js'
+    output='js/compiled/main.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    
+    </head>
+    <body>
+        <div class="container">
+
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle active" data-toggle="collapse" data-target="#navbar" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Alibapass - Password Manager</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+{% if user_session_admin %}
+{% set categories = [ {'href': '/entries/', 'name': 'Entries'}, {'href': '/companies/', 'name': 'Customers/Sites'}, {'href': '/users/', 'name': 'Users'}, {'href': '/groups/', 'name': 'Groups'}, {'href': '/types/', 'name': 'Types'} ] %}
+{% else %}
+{% set categories = [ {'href': '/entries/', 'name': 'Entries'}, {'href': '/companies/', 'name': 'Customers/Sites'} ] %}
+{% endif %}
+                            {% for category in categories %}
+{% if category.name == current_category %}
+                            <li class="active"><a href="{{ category.href }}">{{ category.name }}</a></li>
+{% else %}
+                            <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+{% endif %}
+{% endfor %}
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true">Welcome {{ user_session_fullname }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/settings/">Settings</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/logout/">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{ app.request.uri }}">{{ current_category }}</a></li>
+            </ol>
+            
+            {% block category %}{% endblock %}
+
+        </div>
+    </body>
+</html>

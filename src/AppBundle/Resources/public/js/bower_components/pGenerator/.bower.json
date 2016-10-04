@@ -1,0 +1,15 @@
+{
+  "name": "pGenerator",
+  "homepage": "https://github.com/M1Sh0u/pGenerator",
+  "version": "1.0.4",
+  "_release": "1.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.4",
+    "commit": "3da711dc9b1d81122f104f5652e226f29a461422"
+  },
+  "_source": "https://github.com/M1Sh0u/pGenerator.git",
+  "_target": "^1.0.4",
+  "_originalSource": "pGenerator",
+  "_direct": true
+}

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alibapass - Companies/Sites{% endblock %}
+
+{% block category %}
+        
+        <form id="id-companies-form" role="form">
+            <div class="panel panel-default">
+                <div class="panel-heading">Customer/Sites</div>
+                <table id="id-sites-table" class="table sortable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1" data-defaultsort='disabled'>Delete</th>
+                            <th class="col-md-1" data-defaultsort='disabled'>Edit</th>
+                            <th class="col-md-10" >Customer/Site Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{% for company in companies %}
+                        <tr>
+{% if company.used %}
+                            <th scope="row"><input type="checkbox" value="{{ company.id }}" disabled="disabled" title="There are credential records associated with this Company. You can NOT delete it." /></th>
+{% else %}
+                            <th scope="row"><input type="checkbox" value="{{ company.id }}" /></th>
+{% endif %}
+
+                            <td><button class="btn btn-primary btn-xs" type="button" data-edit-id="{{ company.id }}" data-toggle="modal" data-target="#id-site-modal">Edit</button></td>
+                            <td><span>{{ company.name }}</span></td>
+                        </tr>
+{% endfor %}
+{% if companies|length == 0 %}
+                        <tr>
+                            <td colspan="3">No Customer/Site found</td>
+                        </tr>
+{% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12 text-center">
+                <button id="id-new-site-button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#id-site-modal">New Customer/Site</button>
+                <button id="id-company-delete-button" type="button" class="btn btn-danger disabled" disabled="disabled">Delete</button>
+            </div>
+        </form>
+        
+        <div id="id-site-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 id="id-site-form-group-title-div" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div id="id-site-div-form-group" class="form-group has-feedback">
+                                <label for="id-company-name">Site/Company Name</label>
+                                <input type="text" class="form-control" id="id-company-name" placeholder="Enter Name" />
+                                <input type="hidden" id="id-company-id" />
+                                <div id="id-site-error-div" class="help-block collapse"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="id-company-create-button" type="button" class="btn btn-primary collapse">Create</button>
+                        <button id="id-company-edit-button" type="button" class="btn btn-warning collapse">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+{% endblock %}

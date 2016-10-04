@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Alibapass Password Manager">
+    <meta name="author" content="Denis Leger" />
+
+{% block stylesheets %}
+{% stylesheets
+    '@AppBundle/Resources/public/js/bower_components/bootstrap/dist/css/bootstrap.min.css'
+    '@AppBundle/Resources/public/js/main/login.css'
+    output='css/compiled/login.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+{% javascripts
+    '@AppBundle/Resources/public/js/bower_components/jquery/dist/jquery.min.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    '@AppBundle/Resources/public/js/bower_components/bootstrap-sortable/Scripts/bootstrap-sortable.js'
+    '@AppBundle/Resources/public/js/bower_components/notify.js/dist/notify.js'
+    '@AppBundle/Resources/public/js/main/login.js'
+    output='js/compiled/login.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    </head>
+    <body>
+        <div class="container">
+            {% block category %}{% endblock %}
+        </div>
+    </body>
+</html>

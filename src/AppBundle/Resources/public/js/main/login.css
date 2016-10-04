@@ -1,0 +1,17 @@
+html,body{
+    background-color:#33383E;
+    height: 100%;
+}
+
+@media (min-width: 1024px) {
+    html,body{
+        background-color:#33383E;
+        display: flex;
+        flex-dorection: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+}
+
+

@@ -1,0 +1,44 @@
+{% extends 'base-login.html.twig' %}
+
+{% block title %}Alibapass - Login{% endblock %}
+
+{% block category %}
+        <div class="row vertical-align">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Alibapass Login</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="username" id="id-login-username" type="text" />
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <input class="form-control" placeholder="Password" id="id-login-password" type="password" />
+                                    <div id="id-credentials-error" class="help-block"></div>
+                                </div>
+                                <input class="btn btn-success" type="submit" value="Login" id="id-login-button" />
+                            </fieldset>
+                        </form>
+                        <hr/>
+                        <span><a href="#reset">Forgot your Password?</a></span>
+                    </div>
+                    <div class="panel-body hidden">
+                        <form role="form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="your email address" id="id-login-email" type="text" />
+                                    <div id="id-reset-error" class="help-block"></div>
+                                </div>
+                                <input class="btn btn-success" type="submit" value="Reset" id="id-reset-button" />
+                            </fieldset>
+                        </form>
+                        <hr/>
+                        <span><a href="#login">I know my password</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

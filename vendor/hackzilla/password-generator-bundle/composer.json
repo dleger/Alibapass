@@ -1,0 +1,33 @@
+{
+    "name": "hackzilla/password-generator-bundle",
+    "description": "Password Generator Bundle",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Daniel Platt",
+            "email": "github@ofdan.co.uk",
+            "homepage": "http://www.hackzilla.org"
+        }
+    ],
+    "require": {
+        "php": "^5.5 || ^7.0",
+        "hackzilla/password-generator": "^1.0",
+        "symfony/framework-bundle": "^2.7|^3.0",
+        "symfony/form": "^2.7|^3.0"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "^1.0",
+        "symfony/phpunit-bridge": "^2.7|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hackzilla\\Bundle\\PasswordGeneratorBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    }
+}

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alibapass - Groups{% endblock %}
+
+{% block category %}
+        <form id="id-groups-form" role="form">
+            <div class="panel panel-default">
+                <div class="panel-heading">Groups</div>
+                <table id="id-groups-table" class="table sortable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1" data-defaultsort='disabled'>Delete</th>
+                            <th class="col-md-1" data-defaultsort='disabled'>Edit</th>
+                            <th class="col-md-4" >Group Name</th>
+                            <th class="col-md-6" >Group Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{% for group in all_groups %}
+                        <tr>
+                            <th scope="row"><input type="checkbox" value="{{ group.id }}" /></th>
+                            <td><button class="btn btn-primary btn-xs" type="button" data-edit-id="{{ group.id }}" data-toggle="modal" data-target="#id-group-modal">Edit</button></td>
+                            <td><span>{{ group.name }}</span></td>
+                            <td><span>{{ group.description }}</span></td>
+                        </tr>
+{% endfor %}
+{% if all_groups|length == 0 %}
+                        <tr>
+                            <td colspan="4">No Group found</td>
+                        </tr>
+{% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12 text-center">
+                <button id="id-new-group-button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#id-group-modal">New Group</button>
+                <button id="id-groups-delete-button" type="button" class="btn btn-danger disabled" disabled="disabled">Delete</button>
+            </div>
+        </form>
+
+        <div id="id-group-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 id="id-group-form-group-title-div" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div id="id-group-div-form-name-group" class="form-group has-feedback">
+                                <label for="id-group-name">Group Name</label>
+                                <input type="text" class="form-control" id="id-group-name" placeholder="Enter Name" />
+                                <div id="id-group-error-name-div" class="help-block collapse"></div>
+                            </div>
+                            <div id="id-group-div-form-description-group" class="form-group has-feedback">
+                                <label for="id-group-description">Group Description</label>
+                                <input type="text" class="form-control" id="id-group-description" placeholder="Enter Description" />
+                                <input type="hidden" id="id-group-id" />
+                                <div id="id-group-error-description-div" class="help-block collapse"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="id-group-create-button" type="button" class="btn btn-primary collapse">Create</button>
+                        <button id="id-group-edit-button" type="button" class="btn btn-warning collapse">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

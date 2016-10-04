@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alibapass - Entries{% endblock %}
+
+{% block category %}
+
+        <form id="id-entries-form" role="form">
+        
+            <div class="panel">
+                <div class="input-group">
+                    <input id="id-search-field" type="text" class="form-control" placeholder="Search for..." value="{{ string_search }}">
+                    <span class="input-group-btn">
+                        <button id="id-search-button" class="btn btn-success" type="button">Go!</button>
+                        <button id="id-new-entrybis-button" class="btn btn-primary" type="button" data-toggle="modal" data-target="#id-entry-modal">New Entry</button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Entries</div>
+                <div class="table-responsive">
+                    <table id="id-entries-table" class="table table-bordered" style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">Delete</th>
+                                <th class="col-md-1">Edit</th>
+                                <th>Site</th>
+                                <th>Groups</th>
+                                <th>Type</th>
+                                <th>Items</th>
+                                <th class="col-md-2">Values</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+{% for entry in entries %}
+                            <tr>
+{% if entry.allowed %}
+                                <td rowspan="{{ entry.nbr_fields }}"><input type="checkbox" value="{{ entry.id }}" /></td>
+                                <td rowspan="{{ entry.nbr_fields }}"><button class="btn btn-primary btn-xs" type="button" data-edit-id="{{ entry.id }}" data-toggle="modal" data-target="#id-entry-modal">Edit</button></td>
+{% else %}
+                                <td rowspan="{{ entry.nbr_fields }}"><input type="checkbox" value="{{ entry.id }}" disabled="disabled" /></td>
+                                <td rowspan="{{ entry.nbr_fields }}"><button class="btn btn-primary btn-xs" type="button" data-edit-id="{{ entry.id }}" data-toggle="modal" data-target="#id-entry-modal" disabled="disabled">Edit</button></td>
+{% endif %}
+
+                                <td rowspan="{{ entry.nbr_fields }}"><span>{{ entry.company }}</span></td>
+                                {% if entry.alibapassgroup_names is not empty %}
+                                    <td rowspan="{{ entry.nbr_fields }}" data-group-ids="{{ entry.alibapassgroup_ids }}">{{ entry.alibapassgroup_names }}</td>
+                                {% else %}
+                                    <td rowspan="{{ entry.nbr_fields }}"><span title="No group">No Group</span></td>
+                                {% endif %}
+                                <td rowspan="{{ entry.nbr_fields }}"><span>{{ entry.entrytype }}</span></td>
+{% if entry.allowed %}
+{% if entry.all_fields[0].type == 'password' %}
+                                <td><span>{{ entry.all_fields[0].name }}</span></td>
+                                <td style="width: 30%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; overflow-wrap: break-word;">
+                                    <div class="input-group">
+                                        <input id="id-password-entry-{{ entry.all_fields[0].uid }}" class="form-control input-sm" type="text" value="{{ entry.all_fields[0].value }}" readonly="readonly" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn-password btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#id-password-entry-{{ entry.all_fields[0].uid }}" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </td>
+{% else %}
+                                <td><span>{{ entry.all_fields[0].name }}</span></td>
+                                <td style="width: 30%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; overflow-wrap: break-word;"><span>{{ entry.all_fields[0].value|raw }}</span></td>
+{% endif %}
+{% else %}
+                                <td colspan="2"><span>You don't have access to these credentials</span></td>
+
+{% endif %}
+                                <td style="width: 30%; word-wrap: break-word; text-overflow: ellipsis; overflow-wrap: break-word;" rowspan="{{ entry.nbr_fields }}"><span>{{ entry.comment }}</span></td>
+                            </tr>
+{% if entry.allowed %}
+{% for current_field in entry.all_fields|slice(1, entry.all_fields|length) %}
+{% if current_field.type == 'password' %}
+                            <tr>
+                                <td><span>{{ current_field.name }}</span></td>
+                                <td style="width: 30%; word-wrap: break-word; text-overflow: ellipsis; overflow-wrap: break-word;">
+                                    <div class="input-group">
+                                        <input id="id-password-entry-{{ current_field.uid }}" class="form-control input-sm" type="text" value="{{ current_field.value }}" readonly="readonly" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn-password btn btn-primary btn-sm" data-clipboard-action="copy" data-clipboard-target="#id-password-entry-{{ current_field.uid }}" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+{% else %}
+                            <tr>
+                                <td><span>{{ current_field.name }}</span></td>
+                                <td style="width: 30%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; overflow-wrap: break-word;"><span>{{ current_field.value|raw }}</span></td>
+                            </tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% if entries|length == 0 %}
+                            <tr>
+                                <td colspan="8">No Result</td>
+                            </tr>
+{% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="panel col-sm-12 text-center">
+                    <button id="id-new-entry-button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#id-entry-modal">New Entry</button>
+                    <button id="id-entries-delete-button" type="button" class="btn btn-danger disabled" disabled="disabled">Delete</button>
+            </div>
+        </form>
+    
+        <div id="id-entry-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 id="id-group-form-entry-title-div" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group has-feedback">
+                                <label for="id-entry-company-select">Customer/Site Name</label>
+                                <select class="selectpicker form-control" title="Select Customer/Site" id="id-entry-company-select">
+{% for company in companies %}
+                                    <option value="{{ company.id }}">{{ company.name }}</option>
+{% endfor %}
+                                </select>
+                            </div>
+                            <div id="id-entry-div-form-group" class="form-group has-feedback">
+                                <input type="hidden" id="id-entry-id" />
+                                <label for="id-entry-newcompany">OR new Customer/Site Name</label>
+                                <input type="text" class="form-control" id="id-entry-company-name" placeholder="Enter Customer/Site Name" />
+                                <div id="id-entry-error-company-name-div" class="help-block collapse"></div>
+                            </div>
+                            <div class="form-group has-feedback" id="id-entry-div-entrytypes-form-group">
+                                <label for="id-entry-entrytypes">Entry Type</label>
+                                <select class="selectpicker form-control" title="Select Entry Type" id="id-entry-entrytypes">
+{% for entrytype in entrytypes %}
+                                    <option value="{{ entrytype.id }}">{{ entrytype.name }}</option>
+{% endfor %}
+                                </select>
+                                <div id="id-entry-error-entrytypes-div" class="help-block collapse"></div>
+                            </div>
+                            <div id="id-entry-type-fields"></div>
+                            <div class="form-group has-feedback">
+                                <label for="id-entry-comment">Comment</label>
+                                <textarea class="form-control" id="id-entry-comment"></textarea>
+                            </div>
+                            <div class="form-group has-feedback" id="id-entry-div-groups-form-group">
+                                <label for="id-entry-groups">Groups</label>
+                                <select class="selectpicker form-control" multiple title="Select Groups" id="id-entry-groups">
+                                    {% for group in groups %}
+                                        <option value="{{ group.id }}">{{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div id="id-entry-error-groups-div" class="help-block collapse"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="id-entry-create-button" type="button" class="btn btn-primary collapse">Create</button>
+                        <button id="id-entry-edit-button" type="button" class="btn btn-warning collapse">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
