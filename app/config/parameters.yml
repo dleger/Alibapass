@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: db_name
+    database_user: db_username
+    database_password: db_password
+    mailer_transport: gmail (if gmail)
+    mailer_encryption: ssl
+    mailer_auth_mode: login
+    mailer_host: smtp.gmail.com
+    mailer_user: username@gmail.com
+    mailer_password: user_password_gamil
+    secret: ToKenSymfonyPleaseGenerateOne
+    AppBundle.email_from: 'no-reply@domain.com'
