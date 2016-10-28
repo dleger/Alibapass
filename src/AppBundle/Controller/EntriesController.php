@@ -421,7 +421,7 @@ class EntriesController extends Controller
                     $current_value = $current_entryfields[$cpt_entryfields]->getValue();
 
                     if (substr($current_value, 0, 7) == 'http://' || substr($current_value, 0, 8) == 'https://') {
-                        $all_entries[$cpt_entries]['all_fields'][$cpt_entryfields]['value'] = '<a style="max-width: 200px; overflow: hidden; word-wrap: break-word;" href="' . $current_value . '">' . $current_value . '</a>';
+                        $all_entries[$cpt_entries]['all_fields'][$cpt_entryfields]['value'] = '<a style="max-width: 200px; overflow: hidden; word-wrap: break-word;" target="_blank" href="' . $current_value . '">' . $current_value . '</a>';
                     } else {
                         $all_entries[$cpt_entries]['all_fields'][$cpt_entryfields]['value'] = $current_value;
                     }
