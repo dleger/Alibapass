@@ -13,7 +13,7 @@ html,body{
     html,body{
         background-color:#33383E;
         display: flex;
-        flex-dorection: column;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100%;
